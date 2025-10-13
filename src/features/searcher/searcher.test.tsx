@@ -7,7 +7,7 @@ import { RouterContext } from "next/dist/shared/lib/router-context.shared-runtim
 
 const push = jest.fn();
 
-const createMockRouter = (params: Partial<NextRouter> = {}): any => ({
+const createMockRouter = (params: Partial<NextRouter> = {}): unknown => ({
   pathname: '/',
   push,
   query: {},
@@ -21,7 +21,7 @@ const mockRouter = createMockRouter({
 
 const renderSearcher = () => {
   const { debug } = render(
-    <RouterContext.Provider value={mockRouter}>
+    <RouterContext.Provider value={mockRouter as NextRouter}>
       <Searcher explore="planets" />
     </RouterContext.Provider>
   );
@@ -73,6 +73,21 @@ describe('Searcher suite tests', () => {
     expect(form).toHaveAttribute('action', '/planets/search');
   });
 
+  it('Should not redirect if inputText does not have value and enter key o submit button has been pressed', async () => {
+    const {
+      inputText,
+      button
+    } = renderSearcher();
+
+    expect(inputText).toHaveValue('');
+
+    await userEvent.click(button);
+
+    await userEvent.keyboard('{enter}');
+
+    expect(push).not.toHaveBeenCalled();
+  });
+
   it('Should redirect if inputText has a value and submit button has been pressed and', async () => {
     const {
       inputText,
@@ -108,20 +123,5 @@ describe('Searcher suite tests', () => {
       undefined,
       { scroll: undefined }
     );
-  });
-
-  it('Should not redirect if inputText does not have value and enter key o submit button has been pressed', async () => {
-    const {
-      inputText,
-      button
-    } = renderSearcher();
-
-    expect(inputText).toHaveValue('');
-
-    await userEvent.click(button);
-
-    await userEvent.keyboard('{enter}');
-
-    expect(push).not.toHaveBeenCalled();
   });
 });
