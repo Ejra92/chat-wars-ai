@@ -39,7 +39,6 @@ const items = [
 ];
 
 describe('TopicExplorer suite tests', () => {
-
   beforeEach(() => {
     (usePathname as jest.Mock).mockReturnValue('/planets/page/1');
   });

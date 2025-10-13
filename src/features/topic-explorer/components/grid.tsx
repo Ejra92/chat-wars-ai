@@ -27,15 +27,13 @@ const Item: FC<ItemProps> = ({
   </Card>
 );
 
-export const Grid = ({ items }: GridProps) => {
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-4 md:gap-y-10 lg:gap-y-10 w-full max-w-[420px] md:max-w-[768px] lg:max-w-[1024px] justify-items-center mb-5 md:mb-0">
-      {items?.map((item) => (
-        <Item
-          key={item.name}
-          {...item}
-        />
-      ))}
-    </div>
-  );
-};
+export const Grid = ({ items }: GridProps) => (
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-4 md:gap-y-10 lg:gap-y-10 w-full max-w-[420px] md:max-w-[768px] lg:max-w-[1024px] justify-items-center mb-5 md:mb-0">
+    {items?.map((item) => (
+      <Item
+        key={item.name}
+        {...item}
+      />
+    ))}
+  </div>
+);
