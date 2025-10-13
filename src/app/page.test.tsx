@@ -1,9 +1,6 @@
 import { render, screen } from "@testing-library/react";
 
 import HomePage from "./page";
-import userEvent from "@testing-library/user-event";
-import { createMockRouter, MockRouter } from "@/lib/tests-utils/mock-router";
-import { NextRouter } from "next/router";
 
 describe('HomePage suite tests', () => {
   it('Should have the main topics card visible', () => {
@@ -28,16 +25,22 @@ describe('HomePage suite tests', () => {
     expect(container).toMatchSnapshot();
   });
 
-  describe('Behavior tests', () => {
-    const renderHomePageWithRouter = (
-      params: Partial<NextRouter> = {}
-    ) => {
-      const mockRouter = createMockRouter(params);
+  it('Should have Link component correctly setted by explorer', () => {
+    render(
+      <HomePage />
+    );
 
-      render(
-      <MockRouter value={mockRouter as NextRouter}>
-        <HomePage />
-      </MockRouter>
-    )};
-  });
+    const peopleExplorerButton = screen.getByRole('button', { name: /explore people/i });
+    const planetsExplorerButton = screen.getByRole('button', { name: /explore planets/i });
+    const starshipsExplorerButton = screen.getByRole('button', { name: /explore starships/i });
+
+    expect(peopleExplorerButton).toBeInTheDocument();
+    expect(peopleExplorerButton.parentElement).toHaveAttribute('href', '/people/page/1')
+    
+    expect(planetsExplorerButton).toBeInTheDocument();
+    expect(planetsExplorerButton.parentElement).toHaveAttribute('href', '/planets/page/1')
+
+    expect(starshipsExplorerButton).toBeInTheDocument();
+    expect(starshipsExplorerButton.parentElement).toHaveAttribute('href', '/starships/page/1')
+  })
 });
