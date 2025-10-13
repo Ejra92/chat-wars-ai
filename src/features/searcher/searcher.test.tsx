@@ -3,27 +3,17 @@ import type { NextRouter } from 'next/router';
 import { render, screen } from "@testing-library/react";
 import { Searcher } from "./searcher";
 import userEvent from '@testing-library/user-event';
-import { RouterContext } from "next/dist/shared/lib/router-context.shared-runtime";
-
-const push = jest.fn();
-
-const createMockRouter = (params: Partial<NextRouter> = {}): unknown => ({
-  pathname: '/',
-  push,
-  query: {},
-  ...params,
-});
+import { createMockRouter, MockRouter, routerPushMock } from '@/lib/tests-utils/mock-router';
 
 const mockRouter = createMockRouter({
   pathname: '/planets/page/1',
 });
 
-
 const renderSearcher = () => {
   const { debug } = render(
-    <RouterContext.Provider value={mockRouter as NextRouter}>
+    <MockRouter value={mockRouter as NextRouter}>
       <Searcher explore="planets" />
-    </RouterContext.Provider>
+    </MockRouter>
   );
 
   const form = screen.getByLabelText('search-form');
@@ -85,7 +75,7 @@ describe('Searcher suite tests', () => {
 
     await userEvent.keyboard('{enter}');
 
-    expect(push).not.toHaveBeenCalled();
+    expect(routerPushMock).not.toHaveBeenCalled();
   });
 
   it('Should redirect if inputText has a value and submit button has been pressed and', async () => {
@@ -100,7 +90,7 @@ describe('Searcher suite tests', () => {
 
     await userEvent.click(button);
 
-    expect(push).toHaveBeenCalledWith(
+    expect(routerPushMock).toHaveBeenCalledWith(
       `http://localhost/planets/search?query=${query}`,
       undefined,
       { scroll: undefined }
@@ -118,7 +108,7 @@ describe('Searcher suite tests', () => {
 
     await userEvent.keyboard('{enter}');
 
-    expect(push).toHaveBeenCalledWith(
+    expect(routerPushMock).toHaveBeenCalledWith(
       `http://localhost/planets/search?query=${query}`,
       undefined,
       { scroll: undefined }
