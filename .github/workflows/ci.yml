@@ -11,6 +11,9 @@ jobs:
     name: Validar Lint, Build y Tests
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    env:
+      BASE_API_URL: ${{ secrets.BASE_API_URL }}
+      GOOGLE_GENERATIVE_AI_API_KEY: ${{ vars.GOOGLE_GENERATIVE_AI_API_KEY }} 
 
     steps:
       - name: 1. Checkout del código
