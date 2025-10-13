@@ -17,7 +17,7 @@ export const Paginator: FC<PaginatorProps> = ({
   const pagesOpt = generatePaginatorPagesOpt(currentPage, totalPage);
 
   return (
-    <div className="mt-8 flex justify-center">
+    <div aria-label="paginator" className="mt-8 flex justify-center">
       <Pagination>
         <PaginationContent>
           <PaginatorItem

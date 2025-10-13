@@ -20,6 +20,10 @@ export const getItemsToExploreBy = async (
 
     const items = formatItemsBy?.[explore](result.results);
 
+    console.log({ 
+      items
+     });
+
     return {
       count: Math.ceil(result.count / 10),
       items,
