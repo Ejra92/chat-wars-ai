@@ -4,4 +4,4 @@ export const validPathsToExplore: ValidPathsToExplore[] = [
   'people',
   'planets',
   'starships'
-];
+] as const;

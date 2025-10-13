@@ -33,6 +33,7 @@ export const PaginatorItem: FC<PaginatorItemProps> = ({
 
       {(!asPrevButton && !asNextButton) && (
         <PaginationLink
+          aria-label="paginator-item"
           href={linkPath}
           isActive={isActive}
         >

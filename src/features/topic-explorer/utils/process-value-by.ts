@@ -1,4 +1,4 @@
-const addUnitSignToValueBy: Record<string, string> = {
+export const addUnitSignToValueBy: Record<string, string> = {
   rotation_period: 'hs',
   orbital_period: 'days',
   height: 'cm',
