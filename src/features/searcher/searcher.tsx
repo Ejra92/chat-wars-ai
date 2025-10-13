@@ -21,16 +21,18 @@ export const Searcher = ({ explore }: SearcherProps) => (
   <Form
     className="flex w-[282px] gap-2 mb-6 md:mb-8"
     action={`/${explore}/search`}
+    aria-label="search-form"
   >
     <Input
       placeholder={setPlaceHolderBy?.[explore]}
       name="query"
       required
       autoComplete="off"
+      aria-label="query"
     />
 
     <Label htmlFor="trigger">
-      <Button className="cursor-pointer" variant="ghost" size="icon" aria-label="Submit">
+      <Button className="cursor-pointer" variant="ghost" size="icon">
         <FaSearch />
       </Button>
     </Label>
