@@ -30,10 +30,10 @@ jobs:
           NEXT_TELEMETRY_DISABLED: 1
           
       - name: 5. Ejecutar Build (npm run build)
-        run: npm run build
         env:
           BASE_API_URL: ${{ secrets.BASE_API_URL }}
           GOOGLE_GENERATIVE_AI_API_KEY: ${{ secrets.GOOGLE_GENERATIVE_AI_API_KEY }} 
+        run: npm run build
 
       - name: 6. Ejecutar Tests Unitarios (npm test)
         run: npm test
