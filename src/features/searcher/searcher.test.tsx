@@ -7,7 +7,7 @@ import { RouterContext } from "next/dist/shared/lib/router-context.shared-runtim
 
 const push = jest.fn();
 
-const createMockRouter = (params: Partial<NextRouter> = {}): any => ({
+const createMockRouter = (params: Partial<NextRouter> = {}): unknown => ({
   pathname: '/',
   push,
   query: {},
@@ -21,7 +21,7 @@ const mockRouter = createMockRouter({
 
 const renderSearcher = () => {
   const { debug } = render(
-    <RouterContext.Provider value={mockRouter}>
+    <RouterContext.Provider value={mockRouter as NextRouter}>
       <Searcher explore="planets" />
     </RouterContext.Provider>
   );
