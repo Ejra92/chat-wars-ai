@@ -21,7 +21,7 @@ export const paths: NavbarItemProps[] = [
     path: '/starships/page/1',
     title: 'Starships',
   },
-];
+] as const;
 
 export const Navbar = () => (
   <div className="mb-3 md:mb-5 flex justify-center">
