@@ -14,13 +14,13 @@ export const searchBy = async (
     const raw = await fetch(
       `${process.env.BASE_API_URL}/${explore}/?search=${query}`
     );
-    const result: { count: number; results: ApiItems[]; detail: string } = await raw.json();
+    const result: { results: ApiItems[]; detail: string } = await raw.json();
 
     if (result?.detail === 'Not found') {
       notFound()
     }
 
-    const items = formatItemsBy?.[explore](result.results);
+    const items = formatItemsBy[explore](result.results);
 
     return {
       items,
