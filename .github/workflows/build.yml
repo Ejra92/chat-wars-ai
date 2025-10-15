@@ -21,7 +21,7 @@ jobs:
         run: npm ci
 
       - name: 1.4 Run build (npm run build)
-        run: npm run build
         env:
-          BASE_API_URL: ${{ secrets.BASE_API_URL  }}
-          GOOGLE_GENERATIVE_AI_API_KEY: ${{ secrets.GOOGLE_GENERATIVE_AI_API_KEY  }}
+          BASE_API_URL: ${{ secrets.BASE_API_URL }}
+          GOOGLE_GENERATIVE_AI_API_KEY: ${{ secrets.GOOGLE_GENERATIVE_AI_API_KEY }}
+        run: npm run build
