@@ -3,7 +3,6 @@ on:
 
 jobs:
   lint_validation:
-    name: Validate lint
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
