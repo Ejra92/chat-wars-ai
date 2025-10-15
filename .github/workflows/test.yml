@@ -7,30 +7,41 @@ on:
     branches: ["*"]
 
 jobs:
-  run_tests:
-    name: Run unit Test
+  check_pr:
+    name: Check if branch has open PR
     runs-on: ubuntu-latest
-    timeout-minutes: 10
-
-    if: |
-      github.event_name == 'pull_request' ||
-      (github.event_name == 'push' &&
-        contains(steps.check_pr.outputs.has_open_pr, 'true'))
-
+    outputs:
+      has_open_pr: ${{ steps.check_pr_step.outputs.has_open_pr }}
     steps:
-      - name: 0. Check if branch has open PR
-        id: check_pr
+      - name: Check branch for open PR
+        id: check_pr_step
         run: |
-          BRANCH="${GITHUB_REF#refs/heads/}"
-          PRS=$(gh pr list --head "$BRANCH" --state open --json number --jq 'length')
-          if [ "$PRS" -gt 0 ]; then
-            echo "has_open_pr=true" >> $GITHUB_OUTPUT
+          if [ "${GITHUB_EVENT_NAME}" = "pull_request" ]; then
+            BRANCH="${GITHUB_HEAD_REF}"
           else
-            echo "has_open_pr=false" >> $GITHUB_OUTPUT
+            BRANCH="${GITHUB_REF#refs/heads/}"
+          fi
+
+          PRS=$(gh pr list --head "$BRANCH" --state open --json number --jq 'length' || echo "0")
+
+          if [ "$PRS" -gt 0 ]; then
+            echo "has_open_pr=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_open_pr=false" >> "$GITHUB_OUTPUT"
           fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+  run_tests:
+    name: Run unit tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: check_pr
+    if: |
+      github.event_name == 'pull_request' ||
+      (github.event_name == 'push' && needs.check_pr.outputs.has_open_pr == 'true')
+
+    steps:
       - name: 1.1 Checkout code
         uses: actions/checkout@v4
 
