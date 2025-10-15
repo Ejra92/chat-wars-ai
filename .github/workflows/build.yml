@@ -8,9 +8,11 @@ on:
 
 jobs:
   build_project:
-    name: Build
+    name: Run build
     runs-on: ubuntu-latest
     timeout-minutes: 15
+
+    if: github.event_name == 'pull_request' || (github.event_name == 'push' && github.event.pull_request == null)
 
     steps:
       - name: 1.1 Checkout code

@@ -8,9 +8,11 @@ on:
 
 jobs:
   lint_validation:
-    name: 1. Setup, Install y Lint
+    name: Run linter
     runs-on: ubuntu-latest
     timeout-minutes: 10
+
+    if: github.event_name == 'pull_request' || (github.event_name == 'push' && github.event.pull_request == null)
 
     steps:
       - name: 1.1 Checkout code
