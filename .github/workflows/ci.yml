@@ -1,0 +1,49 @@
+name: CI Controller
+
+on:
+  push:
+    branches: ["feature/*"]
+  pull_request:
+    branches: ["*"]
+
+jobs:
+  check_pr:
+    name: Check if branch has open PR
+    runs-on: ubuntu-latest
+    outputs:
+      has_open_pr: ${{ steps.check.outputs.has_open_pr }}
+    steps:
+      - name: Check branch for open PR
+        id: check
+        run: |
+          if [ "${GITHUB_EVENT_NAME}" = "pull_request" ]; then
+            BRANCH="${GITHUB_HEAD_REF}"
+          else
+            BRANCH="${GITHUB_REF#refs/heads/}"
+          fi
+          echo "Branch: $BRANCH"
+          PRS=$(gh pr list --head "$BRANCH" --state open --json number --jq 'length' || echo "0")
+          echo "has_open_pr=$([ "$PRS" -gt 0 ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build:
+    needs: check_pr
+    if: |
+      github.event_name == 'pull_request' ||
+      (github.event_name == 'push' && needs.check_pr.outputs.has_open_pr == 'true')
+    uses: ./.github/workflows/build.yml
+
+  lint:
+    needs: check_pr
+    if: |
+      github.event_name == 'pull_request' ||
+      (github.event_name == 'push' && needs.check_pr.outputs.has_open_pr == 'true')
+    uses: ./.github/workflows/lint.yml
+
+  test:
+    needs: check_pr
+    if: |
+      github.event_name == 'pull_request' ||
+      (github.event_name == 'push' && needs.check_pr.outputs.has_open_pr == 'true')
+    uses: ./.github/workflows/test.yml

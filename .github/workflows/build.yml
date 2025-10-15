@@ -1,60 +1,12 @@
 name: Build
-
 on:
-  push:
-    branches: ["feature/*"]
-  pull_request:
-    branches: ["*"]
+  workflow_call:
 
 jobs:
-  check_pr:
-    name: Check if branch has open PR
-    runs-on: ubuntu-latest
-    outputs:
-      has_open_pr: ${{ steps.check_pr_step.outputs.has_open_pr }}
-    steps:
-      - name: Check branch for open PR (using REST API)
-        id: check_pr_step
-        run: |
-          # Obtener branch correcto según tipo de evento
-          if [ "${GITHUB_EVENT_NAME}" = "pull_request" ]; then
-            BRANCH="${GITHUB_HEAD_REF}"
-          else
-            BRANCH="${GITHUB_REF#refs/heads/}"
-          fi
-
-          echo "Detected branch: $BRANCH"
-
-          # Extraer owner y repo
-          OWNER=$(echo "${GITHUB_REPOSITORY}" | cut -d'/' -f1)
-          REPO=$(echo "${GITHUB_REPOSITORY}" | cut -d'/' -f2)
-
-          echo "Repo: $OWNER/$REPO"
-
-          # Llamada REST para listar PRs abiertos cuyo head es owner:branch
-          API_URL="https://api.github.com/repos/${OWNER}/${REPO}/pulls?state=open&head=${OWNER}:${BRANCH}"
-          echo "Querying: $API_URL"
-
-          PRS_COUNT=$(curl -s -H "Authorization: token $GH_TOKEN" "$API_URL" | jq 'if . == null then 0 else length end' 2>/dev/null || echo 0)
-
-          echo "Open PRs found: $PRS_COUNT"
-
-          if [ "$PRS_COUNT" -gt 0 ]; then
-            echo "has_open_pr=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "has_open_pr=false" >> "$GITHUB_OUTPUT"
-          fi
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
   build_project:
     name: Run build
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    needs: check_pr
-    if: |
-      github.event_name == 'pull_request' ||
-      (github.event_name == 'push' && needs.check_pr.outputs.has_open_pr == 'true')
 
     steps:
       - name: 1.1 Checkout code
