@@ -37,7 +37,10 @@ export const ToggleChat = ({ children }: ToggleChatProps) => {
             className="cursor-pointer"
             asChild
           >
-            {show ? <GiLightSabers /> : <GiDeathStar />}
+            {show
+              ? <GiLightSabers aria-label="toggle-close" />
+              : <GiDeathStar aria-label="toggle-open" />
+            }
           </Toggle>
         </TooltipTrigger>
 
@@ -45,6 +48,7 @@ export const ToggleChat = ({ children }: ToggleChatProps) => {
         <TooltipContent
           hidden={show}
           side="left"
+          aria-label="tooltip"
         >
           ChatWars - AI
         </TooltipContent>
