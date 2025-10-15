@@ -12,7 +12,7 @@ const ChildComponent = ({ show }: { show: boolean }) => {
     <div>
       <p>child component</p>
     </div>
-  )
+  );
 };
 
 describe('ToggleChat suite tests', () => {
