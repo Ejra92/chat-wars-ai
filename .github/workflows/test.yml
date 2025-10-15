@@ -13,7 +13,7 @@ jobs:
     outputs:
       has_open_pr: ${{ steps.check_pr_step.outputs.has_open_pr }}
     steps:
-      - name: Check branch for open PR
+      - name: Check branch for open PR (using REST API)
         id: check_pr_step
         run: |
           if [ "${GITHUB_EVENT_NAME}" = "pull_request" ]; then
@@ -22,9 +22,15 @@ jobs:
             BRANCH="${GITHUB_REF#refs/heads/}"
           fi
 
-          PRS=$(gh pr list --head "$BRANCH" --state open --json number --jq 'length' || echo "0")
+          OWNER=$(echo "${GITHUB_REPOSITORY}" | cut -d'/' -f1)
+          REPO=$(echo "${GITHUB_REPOSITORY}" | cut -d'/' -f2)
 
-          if [ "$PRS" -gt 0 ]; then
+          API_URL="https://api.github.com/repos/${OWNER}/${REPO}/pulls?state=open&head=${OWNER}:${BRANCH}"
+          PRS_COUNT=$(curl -s -H "Authorization: token $GH_TOKEN" "$API_URL" | jq 'if . == null then 0 else length end' 2>/dev/null || echo 0)
+
+          echo "Open PRs found: $PRS_COUNT"
+
+          if [ "$PRS_COUNT" -gt 0 ]; then
             echo "has_open_pr=true" >> "$GITHUB_OUTPUT"
           else
             echo "has_open_pr=false" >> "$GITHUB_OUTPUT"
