@@ -1,11 +1,11 @@
 import type { ValidPathsToExplore } from '../topic-explorer/types';
 
-import Form from 'next/form'
-import { FaSearch } from "react-icons/fa";
+import Form from 'next/form';
 
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
+import { SearcherButton } from './components/searcher-button';
 
 interface SearcherProps {
   explore: ValidPathsToExplore
@@ -32,9 +32,7 @@ export const Searcher = ({ explore }: SearcherProps) => (
     />
 
     <Label htmlFor="trigger">
-      <Button className="cursor-pointer" variant="ghost" size="icon">
-        <FaSearch />
-      </Button>
+      <SearcherButton />
     </Label>
 
     <Input type="submit" id="trigger" hidden />
