@@ -1,40 +1,50 @@
-name: Next.js CI/CD Pipeline
+name: CI Controller
 
 on:
   push:
-    branches: [ "*" ]
+    branches: ["feature/*"]
   pull_request:
-    branches: [ "*" ]
+    branches: ["*"]
 
 jobs:
-  validate_project:
-    name: Validar Lint, Build y Tests
+  check_pr:
+    name: Check if branch has open PR
     runs-on: ubuntu-latest
-    timeout-minutes: 15
-
+    outputs:
+      has_open_pr: ${{ steps.check.outputs.has_open_pr }}
     steps:
-      - name: 1. Checkout del código
-        uses: actions/checkout@v4
-
-      - name: 2. Configurar Node.js (v20)
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: 3. Instalar dependencias
-        run: npm ci
-
-      - name: 4. Ejecutar Lint (npm run lint)
-        run: npm run lint
+      - name: Check branch for open PR
+        id: check
+        run: |
+          if [ "${GITHUB_EVENT_NAME}" = "pull_request" ]; then
+            BRANCH="${GITHUB_HEAD_REF}"
+          else
+            BRANCH="${GITHUB_REF#refs/heads/}"
+          fi
+          echo "Branch: $BRANCH"
+          PRS=$(gh pr list --head "$BRANCH" --state open --json number --jq 'length' || echo "0")
+          echo "has_open_pr=$([ "$PRS" -gt 0 ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
         env:
-          NEXT_TELEMETRY_DISABLED: 1
-          
-      - name: 5. Ejecutar Build (npm run build)
-        env:
-          BASE_API_URL: ${{ secrets.BASE_API_URL }}
-          GOOGLE_GENERATIVE_AI_API_KEY: ${{ secrets.GOOGLE_GENERATIVE_AI_API_KEY }} 
-        run: npm run build
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: 6. Ejecutar Tests Unitarios (npm test)
-        run: npm test
+  build:
+    needs: check_pr
+    if: |
+      github.event_name == 'pull_request' ||
+      (github.event_name == 'push' && needs.check_pr.outputs.has_open_pr == 'true')
+    uses: ./.github/workflows/build.yml
+    secrets: inherit
 
+  lint:
+    needs: check_pr
+    if: |
+      github.event_name == 'pull_request' ||
+      (github.event_name == 'push' && needs.check_pr.outputs.has_open_pr == 'true')
+    uses: ./.github/workflows/lint.yml
+
+  test:
+    needs: check_pr
+    if: |
+      github.event_name == 'pull_request' ||
+      (github.event_name == 'push' && needs.check_pr.outputs.has_open_pr == 'true')
+    uses: ./.github/workflows/test.yml
