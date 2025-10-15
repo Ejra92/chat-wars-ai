@@ -1,10 +1,9 @@
-name: Lint
 on:
   workflow_call:
 
 jobs:
   lint_validation:
-    name: Run linter
+    name: Validate lint
     runs-on: ubuntu-latest
     timeout-minutes: 10
 

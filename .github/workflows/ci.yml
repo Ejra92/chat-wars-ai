@@ -1,5 +1,3 @@
-name: CI Controller
-
 on:
   pull_request:
     branches: ["*"]
