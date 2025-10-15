@@ -1,6 +1,11 @@
 name: Build
 on:
   workflow_call:
+    secrets:
+      BASE_API_URL:
+        required: true
+      GOOGLE_GENERATIVE_AI_API_KEY:
+        required: true
 
 jobs:
   build_project:
