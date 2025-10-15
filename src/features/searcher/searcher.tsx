@@ -4,7 +4,6 @@ import Form from 'next/form';
 
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
 import { SearcherButton } from './components/searcher-button';
 
 interface SearcherProps {
