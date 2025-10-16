@@ -8,7 +8,7 @@ interface Params {
   params: Promise<{ explore: ValidPathsToExplore }>;
 };
 
-export default async function Page({
+export default async function RedirectToExploreByIdPage({
   params,
 }: Params) {
   const { explore } = await params;

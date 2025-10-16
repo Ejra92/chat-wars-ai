@@ -22,9 +22,7 @@ export const generateMetadata = async ({
 
   return {
     title: `${capitalize(explore)} - ${id}`,
-    description: `
-      Explore more about the ${capitalize(explore)} and all the data related. Go deep into this incredible universe.
-    `,
+    description: `Explore more about the ${capitalize(explore)} and all the data related. Go deep into this incredible universe.`,
     keywords: [explore],
   };
 };
