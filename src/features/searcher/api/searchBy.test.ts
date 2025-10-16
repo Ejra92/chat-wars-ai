@@ -1,28 +1,8 @@
 import { notFound } from "next/navigation";
 import { searchBy } from "./searchBy";
+import { mockPeopleResolveValue } from "@/lib/tests-utils";
 
 jest.mock('next/navigation');
-
-const mockResolvedValue = [
-  {
-    "name": "Luke Skywalker",
-    "height": "172",
-    "mass": "77",
-    "hair_color": "blond",
-    "skin_color": "fair",
-    "eye_color": "blue",
-    "birth_year": "19BBY",
-    "gender": "male",
-    "homeworld": "https://swapi.dev/api/planets/1/",
-    "films": [],
-    "species": [],
-    "vehicles": [],
-    "starships": [],
-    "created": "2014-12-09T13:50:51.644000Z",
-    "edited": "2014-12-20T21:17:56.891000Z",
-    "url": "https://swapi.dev/api/people/1/"
-  },
-];
 
 describe('SearchBy suite tests', () => {
   beforeEach(() => {
@@ -36,14 +16,15 @@ describe('SearchBy suite tests', () => {
   it('Should return items correctly when api resolve succesfully', async () => {
     global.fetch = jest.fn().mockResolvedValueOnce({
       json: () => Promise.resolve({
-        results: mockResolvedValue,
+        results: mockPeopleResolveValue,
         detail: '',
       }),
     });
 
     const { items } = await searchBy('luke skywaler', 'people');
 
-    expect(items).toStrictEqual([{
+    expect(items).toStrictEqual([
+      {
       "birth_year": "19BBY",
       "eye_color": "blue",
       "gender": "male",
@@ -52,7 +33,18 @@ describe('SearchBy suite tests', () => {
       "mass": "77",
       "name": "Luke Skywalker",
       "skin_color": "fair"
-    }]);
+      },
+      {
+        "birth_year": "112BBY",
+        "eye_color": "yellow",
+        "gender": "n/a",
+        "hair_color": "n/a",
+        "height": "167",
+        "mass": "75",
+        "name": "C-3PO",
+        "skin_color": "gold",
+      }
+    ]);
   });
 
   it('Should return an empty array if service do not have results', async () => {
