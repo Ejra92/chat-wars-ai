@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`NotFound suite tests for explore search Should match snapshot 1`] = `
+<div>
+  <img
+    alt="Error that indiques than an error has been occur."
+    data-nimg="1"
+    decoding="async"
+    height="300"
+    loading="lazy"
+    src="/_next/image?url=%2Fassets%2Fimages%2Ferror_image_search.png&w=640&q=75"
+    srcset="/_next/image?url=%2Fassets%2Fimages%2Ferror_image_search.png&w=384&q=75 1x, /_next/image?url=%2Fassets%2Fimages%2Ferror_image_search.png&w=640&q=75 2x"
+    style="color: transparent;"
+    width="300"
+  />
+  <h2
+    class="text-2xl text-center font-bold"
+  >
+    Better results, you want? A better search, you must do!
+  </h2>
+</div>
+`;
