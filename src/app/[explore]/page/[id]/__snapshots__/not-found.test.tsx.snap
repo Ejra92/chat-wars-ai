@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`NotFound for explore page id Should match snapshot 1`] = `
+<div>
+  <img
+    alt="Error that indiques than an error has been occur."
+    data-nimg="1"
+    decoding="async"
+    height="600"
+    loading="lazy"
+    src="/_next/image?url=%2Fassets%2Fimages%2Ferror_image.png&w=1200&q=75"
+    srcset="/_next/image?url=%2Fassets%2Fimages%2Ferror_image.png&w=640&q=75 1x, /_next/image?url=%2Fassets%2Fimages%2Ferror_image.png&w=1200&q=75 2x"
+    style="color: transparent;"
+    width="600"
+  />
+  <h2
+    class="text-2xl text-center font-bold"
+  >
+    Something went wrong!
+  </h2>
+</div>
+`;
+
+exports[`NotFound suite tests for explore page id Should match snapshot 1`] = `
+<div>
+  <img
+    alt="Error that indiques than an error has been occur."
+    data-nimg="1"
+    decoding="async"
+    height="600"
+    loading="lazy"
+    src="/_next/image?url=%2Fassets%2Fimages%2Ferror_image.png&w=1200&q=75"
+    srcset="/_next/image?url=%2Fassets%2Fimages%2Ferror_image.png&w=640&q=75 1x, /_next/image?url=%2Fassets%2Fimages%2Ferror_image.png&w=1200&q=75 2x"
+    style="color: transparent;"
+    width="600"
+  />
+  <h2
+    class="text-2xl text-center font-bold"
+  >
+    Something went wrong!
+  </h2>
+</div>
+`;
+
+exports[`NotFound suite tests for explore search Should match snapshot 1`] = `
+<div>
+  <img
+    alt="Error that indiques than an error has been occur."
+    data-nimg="1"
+    decoding="async"
+    height="600"
+    loading="lazy"
+    src="/_next/image?url=%2Fassets%2Fimages%2Ferror_image.png&w=1200&q=75"
+    srcset="/_next/image?url=%2Fassets%2Fimages%2Ferror_image.png&w=640&q=75 1x, /_next/image?url=%2Fassets%2Fimages%2Ferror_image.png&w=1200&q=75 2x"
+    style="color: transparent;"
+    width="600"
+  />
+  <h2
+    class="text-2xl text-center font-bold"
+  >
+    Something went wrong!
+  </h2>
+</div>
+`;

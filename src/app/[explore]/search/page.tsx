@@ -21,9 +21,7 @@ export const generateMetadata = async ({
 
   return {
     title: `${capitalize(explore)} - Search`,
-    description: `
-      Explore more about the ${capitalize(explore)} through our incredible search system.
-    `,
+    description: `Explore more about the ${capitalize(explore)} through our incredible search system.`,
   };
 };
 

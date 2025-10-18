@@ -41,6 +41,24 @@ export const mockPeopleResolveValue = [
 
 export const peoplePage1Params: Promise<{ explore: ValidPathsToExplore, id: string }> = Promise.resolve({ explore: 'people', id: '1' });
 
-export const wrongParams: Promise<{ explore: ValidPathsToExplore }> = Promise.resolve({ explore: 'canada' as ValidPathsToExplore });
+export const wrongExploreParams: Promise<{ explore: ValidPathsToExplore }> = Promise.resolve({ explore: 'canada' as ValidPathsToExplore });
 
 export const planetsParamsWithoutPage: Promise<{ explore: ValidPathsToExplore }> = Promise.resolve({ explore: 'planets' });
+
+export const searchParams: {
+  params: Promise<{
+    explore: ValidPathsToExplore;
+  }>;
+  searchParams: Promise<{
+    query: string;
+  }>;
+} = { params: Promise.resolve({ explore: 'people' }), searchParams: Promise.resolve({ query: 'Skywalker' }) };
+
+export const wrongSearchParams: {
+  params: Promise<{
+    explore: ValidPathsToExplore;
+  }>;
+  searchParams: Promise<{
+    query: string;
+  }>;
+} = { params: Promise.resolve({ explore: 'people' }), searchParams: Promise.resolve({ query: '' }) };
